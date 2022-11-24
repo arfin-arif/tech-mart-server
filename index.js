@@ -22,12 +22,21 @@ async function run() {
         const categoriesCollection = client.db('techMart').collection('allCategories');
         const productsCollection = client.db('techMart').collection('allProducts');
         const userCollection = client.db('techMart').collection('users');
-
+        // to get all the category
         app.get('/categories', async (req, res) => {
             const query = {};
             const result = await categoriesCollection.find(query).toArray()
             res.send(result)
         });
+
+
+        // to insert new products
+        app.post('/allproducts', async (req, res) => {
+            const doctor = req.body;
+            const result = await productsCollection.insertOne(doctor);
+            res.send(result)
+        })
+
 
         // to get particular category all data
         app.get('/category', async (req, res) => {
