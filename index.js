@@ -94,7 +94,12 @@ async function run() {
             const result = await userCollection.insertOne(user);
             res.send(result)
         })
-
+        // to get all the users 
+        app.get('/allusers', async (req, res) => {
+            const query = {};
+            const result = await userCollection.find(query).toArray();
+            res.send(result)
+        })
 
         // post the bookings
         app.post('/bookings', async (req, res) => {
