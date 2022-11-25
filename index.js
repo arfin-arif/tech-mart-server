@@ -23,20 +23,16 @@ async function run() {
         const productsCollection = client.db('techMart').collection('allProducts');
         const userCollection = client.db('techMart').collection('users');
         const bookingCollection = client.db('techMart').collection('bookings');
+
+
+        // to get particular user products
+
         // to get all the category
         app.get('/categories', async (req, res) => {
             const query = {};
             const result = await categoriesCollection.find(query).toArray()
             res.send(result)
         });
-
-
-        // to insert new products
-        app.post('/allproducts', async (req, res) => {
-            const doctor = req.body;
-            const result = await productsCollection.insertOne(doctor);
-            res.send(result)
-        })
 
 
         // to get particular category all data
@@ -52,6 +48,13 @@ async function run() {
             const results = await cursor.toArray();
             res.send(results)
         })
+
+        // to insert new products
+        app.post('/allproducts', async (req, res) => {
+            const doctor = req.body;
+            const result = await productsCollection.insertOne(doctor);
+            res.send(result)
+        })
         // to get all thw products 
         app.get('/allproducts', async (req, res) => {
             const query = {};
@@ -59,6 +62,31 @@ async function run() {
             res.send(result)
 
         })
+        // to get particular user products
+
+
+        app.get('/products', async (req, res) => {
+            let query = {};
+            if (req.query.sellerEmail) {
+                query = {
+                    sellerEmail: req.query.sellerEmail
+                }
+            }
+            const cursor = productsCollection.find(query)
+            const products = await cursor.toArray();
+            res.send(products)
+
+
+        })
+
+        // to delete any product
+        app.delete('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const result = await productsCollection.deleteOne(filter);
+            res.send(result)
+        })
+
 
         // to store user info who signup
         app.post('/users', async (req, res) => {
