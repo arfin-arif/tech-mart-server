@@ -22,6 +22,7 @@ async function run() {
         const categoriesCollection = client.db('techMart').collection('allCategories');
         const productsCollection = client.db('techMart').collection('allProducts');
         const userCollection = client.db('techMart').collection('users');
+        const bookingCollection = client.db('techMart').collection('bookings');
         // to get all the category
         app.get('/categories', async (req, res) => {
             const query = {};
@@ -41,7 +42,7 @@ async function run() {
         // to get particular category all data
         app.get('/category', async (req, res) => {
             let query = {}
-            console.log(req.query.category_id);
+            // console.log(req.query.category_id);
             if (req.query.category_id) {
                 query = {
                     category_id: req.query.category_id
@@ -63,6 +64,15 @@ async function run() {
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await userCollection.insertOne(user);
+            res.send(result)
+        })
+
+
+        // post the bookings
+        app.post('/bookings', async (req, res) => {
+            const booking = req.body;
+            console.log(booking);
+            const result = await bookingCollection.insertOne(booking);
             res.send(result)
         })
 
