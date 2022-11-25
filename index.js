@@ -75,8 +75,6 @@ async function run() {
             const cursor = productsCollection.find(query)
             const products = await cursor.toArray();
             res.send(products)
-
-
         })
 
         // to delete any product
@@ -100,6 +98,19 @@ async function run() {
             const result = await userCollection.find(query).toArray();
             res.send(result)
         })
+        // to get all sellers from all the  user 
+        app.get('/allsellers', async (req, res) => {
+            let query = {};
+            if (req.query.role) {
+                query = {
+                    role: req.query.role
+                }
+            }
+            const cursor = userCollection.find(query)
+            const users = await cursor.toArray();
+            res.send(users)
+        })
+
 
         // to delete any user
         app.delete('/users/:id', async (req, res) => {
