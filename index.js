@@ -101,6 +101,14 @@ async function run() {
             res.send(result)
         })
 
+        // to delete any user
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const result = await userCollection.deleteOne(filter);
+            res.send(result)
+        })
+
         // post the bookings
         app.post('/bookings', async (req, res) => {
             const booking = req.body;
