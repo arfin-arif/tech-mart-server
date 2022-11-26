@@ -111,6 +111,22 @@ async function run() {
             res.send(users)
         })
 
+        // to check admin 
+        app.get('/users/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email }
+            console.log(email)
+            const user = await userCollection.findOne(query)
+            res.send({ isAdmin: user?.role === 'admin' });
+        })
+        // to check seller 
+        app.get('/users/seller/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email }
+            console.log(email)
+            const user = await userCollection.findOne(query)
+            res.send({ isSeller: user?.role === 'Seller' });
+        })
 
         // to delete any user
         app.delete('/users/:id', async (req, res) => {
@@ -123,10 +139,28 @@ async function run() {
         // post the bookings
         app.post('/bookings', async (req, res) => {
             const booking = req.body;
-            console.log(booking);
+            // console.log(booking);
             const result = await bookingCollection.insertOne(booking);
             res.send(result)
         })
+
+        // get particular booking 
+        app.get('/booking', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { buyerEmail: email }
+            const bookings = await bookingCollection.find(query).toArray();
+            res.send(bookings);
+        })
+        // get the bookings
+        app.get('/bookings', async (req, res) => {
+            let query = {}
+            const result = await bookingCollection.find(query).toArray();
+            res.send(result)
+        })
+
+
+
 
 
     }
