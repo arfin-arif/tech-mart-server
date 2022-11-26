@@ -24,6 +24,7 @@ async function run() {
         const userCollection = client.db('techMart').collection('users');
         const bookingCollection = client.db('techMart').collection('bookings');
         const advertisedCollection = client.db('techMart').collection('advertise');
+        const reportsCollection = client.db('techMart').collection('reports');
 
 
         // to get particular user products
@@ -174,8 +175,13 @@ async function run() {
             res.send(result)
         })
 
-
-
+        // post reported item 
+        app.post('/report', async (req, res) => {
+            const report = req.body;
+            console.log(report);
+            const result = await reportsCollection.insertOne(report);
+            res.send(result)
+        })
 
 
     }
