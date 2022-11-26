@@ -148,7 +148,7 @@ async function run() {
         // get particular booking 
         app.get('/booking', async (req, res) => {
             const email = req.query.email;
-            console.log(email);
+            // console.log(email);
             const query = { buyerEmail: email }
             const bookings = await bookingCollection.find(query).toArray();
             res.send(bookings);
@@ -164,6 +164,13 @@ async function run() {
             const advertised = req.body;
             // console.log(booking);
             const result = await advertisedCollection.insertOne(advertised);
+            res.send(result)
+        })
+
+        // get the promoted product
+        app.get('/advertised', async (req, res) => {
+            let query = {}
+            const result = await advertisedCollection.find(query).toArray();
             res.send(result)
         })
 
