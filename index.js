@@ -43,7 +43,7 @@ async function run() {
 
 
         const verifyAdmin = async (req, res, next) => {
-            console.log('verify admin', req.decoded.email);
+            // console.log('verify admin', req.decoded.email);
             const decodedEmail = req.decoded.email;
             const query = { email: decodedEmail };
             const user = await userCollection.findOne(query)
@@ -92,12 +92,12 @@ async function run() {
         // to change status 
         app.put('/products/report/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
+            // console.log(id);
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
                 $set: {
-                    status: 'reported'
+                    report: 'reported'
                 }
             }
             const result = await productsCollection.updateOne(filter, updatedDoc, options);
@@ -106,7 +106,7 @@ async function run() {
         // to change promoted status 
         app.put('/products/promote/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
+            // console.log(id);
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
@@ -134,9 +134,9 @@ async function run() {
         // get the dat of change statused
         app.get('/reportedItems', async (req, res) => {
             let query = {};
-            if (req.query.status) {
+            if (req.query.report) {
                 query = {
-                    status: req.query.status
+                    report: req.query.report
                 }
             }
             const cursor = productsCollection.find(query)
@@ -206,7 +206,7 @@ async function run() {
         // to change seller status
         app.put('/seller/verify/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
+            // console.log(id);
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
@@ -235,7 +235,7 @@ async function run() {
         app.get('/users/admin/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email }
-            console.log(email)
+            // console.log(email)
             const user = await userCollection.findOne(query)
             res.send({ isAdmin: user?.role === 'admin' });
         })
@@ -243,7 +243,7 @@ async function run() {
         app.get('/users/seller/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email }
-            console.log(email)
+            // console.log(email)
             const user = await userCollection.findOne(query)
             res.send({ isSeller: user?.role === 'Seller' });
         })
@@ -251,7 +251,7 @@ async function run() {
         app.get('/users/buyers/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email }
-            console.log(email)
+            // console.log(email)
             const user = await userCollection.findOne(query)
             res.send({ isUser: user?.role === 'User' });
         })
@@ -376,7 +376,7 @@ async function run() {
 run().catch(console.log())
 
 app.get('/', async (req, res) => {
-    res.send('Tech MartServer is Running')
+    res.send('Tech Mart Server is Running')
 })
 app.listen(port, () => {
     console.log(`Server running on ${port}`)
